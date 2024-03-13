@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 public interface BlogCommentService {
     BlogCommentDTO createComment(Long postId, BlogCommentDTO blogCommentDto);
     BlogCommentDTO getCommentById(Long id);

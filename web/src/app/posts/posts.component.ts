@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AxiosService } from '../axios.service';
 
 @Component({
   selector: 'app-posts',
@@ -8,6 +9,22 @@ import { Component } from '@angular/core';
   styleUrl: './posts.component.css'
 })
 export class PostsComponent {
+  blogPosts: Object[] = [];
+
+  constructor(private axiosService: AxiosService) {
+  
+  }
+
+  ngOnInit() {
+    this.axiosService.request(
+      "GET",
+      "/posts",
+      {}
+    ).then((response) => {
+      this.blogPosts = response.data;
+    }).catch((error) => {
+      console.error(error);
+    });
+  }
 
 }
-// this class will be used to fedctch the data from the server, all blog posts it will maybe use a service to fetch the data

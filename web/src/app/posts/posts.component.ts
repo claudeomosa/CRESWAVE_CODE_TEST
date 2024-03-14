@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
 import { AxiosService } from '../axios.service';
+import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-posts',
   standalone: true,
-  imports: [],
+  imports: [
+    NgFor
+  ],
   templateUrl: './posts.component.html',
   styleUrl: './posts.component.css'
 })
@@ -18,7 +21,7 @@ export class PostsComponent {
   ngOnInit() {
     this.axiosService.request(
       "GET",
-      "/posts",
+      "api/posts",
       {}
     ).then((response) => {
       this.blogPosts = response.data;

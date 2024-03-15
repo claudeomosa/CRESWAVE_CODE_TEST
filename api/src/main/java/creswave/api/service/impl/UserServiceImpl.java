@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO createUser(UserDTO userDto) {
         User user = new User();
-        user.setFullName(userDto.getFullName());
+        user.setFullname(userDto.getFullname());
         user.setUsername(userDto.getUsername());
         user.setEmail(userDto.getEmail());
         return toDto(userRepository.save(user));
@@ -30,6 +30,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO getUserById(Long id) {
         User user = userRepository.findById(id).orElseThrow();
+        return toDto(user);
+    }
+
+    @Override
+    public UserDTO getUserByUsername(String username) {
+        User user = userRepository.findByUsername(username).orElseThrow();
         return toDto(user);
     }
 
@@ -44,7 +50,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO updateUser(Long id, UserDTO userDto) {
         User user = userRepository.findById(id).orElseThrow();
-        user.setFullName(userDto.getFullName());
+        user.setFullname(userDto.getFullname());
         user.setUsername(userDto.getUsername());
         user.setEmail(userDto.getEmail());
         return toDto(userRepository.save(user));
@@ -58,7 +64,7 @@ public class UserServiceImpl implements UserService {
     private UserDTO toDto(User user) {
         UserDTO dto = new UserDTO();
         dto.setId(user.getId());
-        dto.setFullName(user.getFullName());
+        dto.setFullname(user.getFullname());
         dto.setUsername(user.getUsername());
         dto.setEmail(user.getEmail());
         return dto;

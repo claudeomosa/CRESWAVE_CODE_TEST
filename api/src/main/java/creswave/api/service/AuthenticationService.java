@@ -71,6 +71,12 @@ public class AuthenticationService {
         return new AuthenticationResponse(jwt, "User login was successful");
 
     }
+
+    public void logout(String tokenString) {
+        Token token = tokenRepository.findByToken(tokenString).orElseThrow(() -> new IllegalArgumentException("Invalid token"));
+        token.setLoggedOut(true);
+        tokenRepository.save(token);
+    }
     private void revokeAllTokenByUser(User user) {
         List<Token> validTokens = tokenRepository.findAllTokensByUser(Math.toIntExact(user.getId()));
         if(validTokens.isEmpty()) {

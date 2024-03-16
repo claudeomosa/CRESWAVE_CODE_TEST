@@ -36,25 +36,30 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public AuthenticationResponse register(User request) {
 
-        // check if user already exist. if exist than authenticate the user
-        if(userRepository.findByUsername(request.getUsername()).isPresent()) {
-            return new AuthenticationResponse(null, "User already exist");
-        }
-
         User user = new User();
+
+
         if (request.getFullname() == null || request.getFullname().isEmpty()) {
             return new AuthenticationResponse(null, "Fullname is required");
         } else {
             user.setFullname(request.getFullname());
         }
         if (request.getUsername() == null || request.getUsername().isEmpty()) {
-            String username = request.getFullname().replaceAll("\\s", "").toLowerCase();
-            if(userRepository.findByUsername(username).isPresent()) {
-                username = username + "1";
+            String baseUsername = request.getFullname().replaceAll("\\s", "").toLowerCase();
+            String username = baseUsername;
+            int suffix = 1;
+            while(userRepository.findByUsername(username).isPresent()) {
+                username = baseUsername + suffix++;
             }
             user.setUsername(username);
         } else {
-            user.setUsername(request.getUsername());
+            String baseUsername = request.getUsername();
+            String username = baseUsername;
+            int suffix = 1;
+            while(userRepository.findByUsername(username).isPresent()) {
+                username = baseUsername + suffix++;
+            }
+            user.setUsername(username);
         }
         if (request.getEmail() == null || request.getEmail().isEmpty()) {
             return new AuthenticationResponse(null, "Email is required");

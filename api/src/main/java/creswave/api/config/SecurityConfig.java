@@ -1,5 +1,8 @@
 package creswave.api.config;
-
+/*
+* This class is used to configure the security of the application.
+* It is used to configure the security filter chain and the cors filter.
+*/
 import creswave.api.filter.JwtAuthenticationFilter;
 import creswave.api.service.impl.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;

@@ -1,5 +1,8 @@
 package creswave.api.controller;
-
+/*
+* The AuthenticationController class is used to handle the authentication of the user.
+* It has endpoints for registering, logging in and logging out.
+*/
 import creswave.api.model.AuthenticationResponse;
 import creswave.api.model.User;
 import creswave.api.service.AuthenticationService;

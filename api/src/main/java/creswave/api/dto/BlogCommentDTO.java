@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 public class BlogCommentDTO {
     private Long id;
     private String text;
-    private Long postId;
+    private BlogPostDTO post;
     private UserDTO user;
 }

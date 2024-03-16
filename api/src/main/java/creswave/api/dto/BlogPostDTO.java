@@ -13,4 +13,5 @@ public class BlogPostDTO {
     private String content;
     private LocalDateTime creationDate;
     private UserDTO user;
+    private String slug;
 }

@@ -61,7 +61,8 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
     }
 
-    private UserDTO toDto(User user) {
+    @Override
+    public UserDTO toDto(User user) {
         UserDTO dto = new UserDTO();
         dto.setId(user.getId());
         dto.setFullname(user.getFullname());

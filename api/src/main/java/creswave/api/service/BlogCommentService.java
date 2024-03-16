@@ -1,7 +1,10 @@
 package creswave.api.service;
-
+/*
+* Service for BlogComment
+* This interface is used to define the methods for BlogComment, such as createComment, getCommentById, getCommentsByPostId, updateComment, and deleteComment.
+* The methods are implemented in the BlogCommentServiceImpl class.
+*/
 import creswave.api.dto.BlogCommentDTO;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

@@ -1,5 +1,8 @@
 package creswave.api.controller;
-
+/*
+* The BlogPostController class is used to handle the blog posts.
+* It has endpoints for creating, updating, deleting and getting blog posts.
+*/
 import creswave.api.service.BlogPostService;
 import creswave.api.dto.BlogPostDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,12 @@ public class BlogPostController {
 
     @PostMapping
     public ResponseEntity<BlogPostDTO> createPost(@RequestBody BlogPostDTO blogPostDto) {
+        if (blogPostDto.getTitle() == null || blogPostDto.getTitle().isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+        if (blogPostDto.getContent() == null || blogPostDto.getContent().isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
         return ResponseEntity.ok(blogPostService.createPost(blogPostDto));
     }
 

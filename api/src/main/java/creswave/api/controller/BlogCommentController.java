@@ -1,8 +1,10 @@
 package creswave.api.controller;
-
+/*
+* The BlogCommentController class is used to handle the comments on the blog posts.
+* It has endpoints for creating, updating, deleting and getting comments.
+*/
 import creswave.api.dto.BlogCommentDTO;
 import creswave.api.service.BlogCommentService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,8 +13,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/posts/{postId}/comments")
 public class BlogCommentController {
-    @Autowired
-    private BlogCommentService blogCommentService;
+
+    private final BlogCommentService blogCommentService;
+
+    public BlogCommentController(BlogCommentService blogCommentService) {
+        this.blogCommentService = blogCommentService;
+    }
 
     @PostMapping
     public ResponseEntity<BlogCommentDTO> createComment(@PathVariable Long postId, @RequestBody BlogCommentDTO blogCommentDTO) {

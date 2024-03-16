@@ -14,6 +14,7 @@ public class BlogComment {
     private Long id;
 
     @Lob
+    @Column(nullable = false)
     private String text;
 
     @ManyToOne(fetch = FetchType.LAZY)

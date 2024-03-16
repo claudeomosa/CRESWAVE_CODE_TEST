@@ -6,6 +6,7 @@ package creswave.api.controller;
 import creswave.api.service.BlogPostService;
 import creswave.api.dto.BlogPostDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,6 +40,16 @@ public class BlogPostController {
     @GetMapping
     public ResponseEntity<List<BlogPostDTO>> getAllPosts() {
         return ResponseEntity.ok(blogPostService.getAllPosts());
+    }
+
+    @GetMapping("/sort/{sort_by}")
+    public ResponseEntity<List<BlogPostDTO>> getAllPostsWithSorting(@PathVariable String sort_by) {
+        return ResponseEntity.ok(blogPostService.getAllPostsWithSorting(sort_by));
+    }
+
+    @GetMapping("/page/{page}/size/{size}")
+    public ResponseEntity<Page<BlogPostDTO>> findPostsWithPagination(@PathVariable int page, @PathVariable int size) {
+        return ResponseEntity.ok(blogPostService.findPostsWithPagination(page, size));
     }
 
     @PutMapping("/{id}")

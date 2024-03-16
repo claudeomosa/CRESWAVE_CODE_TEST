@@ -10,6 +10,10 @@ import creswave.api.service.BlogPostService;
 import creswave.api.service.JwtService;
 import creswave.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -58,10 +62,28 @@ public class BlogPostServiceImpl implements BlogPostService {
 
     @Override
     public List<BlogPostDTO> getAllPosts() {
-        List<BlogPost> blogPosts = blogPostRepository.findAll();
-        return blogPosts.stream()
+        return blogPostRepository.findAll()
+                .stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
+    }
+
+
+
+    @Override
+    public List<BlogPostDTO> getAllPostsWithSorting(String sortBy) {
+        return blogPostRepository.findAll(
+                Sort.by(sortBy))
+                .stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<BlogPostDTO> findPostsWithPagination(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return blogPostRepository.findAll(pageable)
+                .map(this::toDto);
     }
 
     @Override

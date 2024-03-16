@@ -4,6 +4,7 @@ import creswave.api.dto.BlogCommentDTO;
 import creswave.api.dto.UserDTO;
 import creswave.api.model.BlogComment;
 import creswave.api.model.BlogPost;
+import creswave.api.model.Role;
 import creswave.api.model.User;
 import creswave.api.repository.CommentRepository;
 import creswave.api.repository.UserRepository;
@@ -70,6 +71,9 @@ public class BlogCommentServiceImpl implements BlogCommentService {
     public BlogCommentDTO updateComment(Long id, BlogCommentDTO blogCommentDto) {
         BlogComment blogComment = blogCommentRepository.findById(id).orElseThrow();
         blogComment.setText(blogCommentDto.getText());
+        if (!blogComment.getUser().getId().equals(getCurrentUser().getId()) || !getCurrentUser().getRole().equals(Role.ADMIN)) {
+            throw new IllegalArgumentException("You are not authorized to update this comment");
+        }
         return toDto(blogCommentRepository.save(blogComment));
     }
 
@@ -90,6 +94,12 @@ public class BlogCommentServiceImpl implements BlogCommentService {
 
     @Override
     public void deleteComment(Long id) {
-        blogCommentRepository.deleteById(id);
+        User currentUser = getCurrentUser();
+        BlogComment blogComment = blogCommentRepository.findById(id).orElseThrow();
+        if (blogComment.getUser().getId().equals(currentUser.getId()) || currentUser.getRole().equals(Role.ADMIN)) {
+            blogCommentRepository.deleteById(id);
+        } else {
+            throw new IllegalArgumentException("You are not authorized to delete this comment");
+        }
     }
 }

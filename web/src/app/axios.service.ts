@@ -11,11 +11,21 @@ export class AxiosService {
     axios.defaults.headers.post["content-type"] = "application/json"
   }
 
-  request(method: string, url: string, data: any) {
+  request(method: string, url: string, data: any, includeAuthToken: boolean = true) {
+    const headers = includeAuthToken && this.getAuthTokens()
+      ? {
+        "Authorization": `Bearer ${this.getAuthTokens()}`
+      }
+      : {};
     return axios({
       method,
       url,
-      data
+      data,
+      headers
     })
+  }
+
+  getAuthTokens() {
+    return localStorage.getItem("authToken")
   }
 }

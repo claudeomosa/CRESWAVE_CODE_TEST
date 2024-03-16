@@ -35,7 +35,7 @@ export class RegisterComponent {
   }
   onSubmitRegister(): void {
     if (this.registerFormData.password !== this.registerFormData.confirmPassword) {
-      this.errorMessage = "Passwords do not match";
+      this.errorMessage = "Error registering user. Passwords do not match";
       return;
     }
     this.axiosService.request(
@@ -45,20 +45,22 @@ export class RegisterComponent {
         "fullname": this.registerFormData.fullname,
         "email": this.registerFormData.email,
         "password": this.registerFormData.password,
-        "username": this.generateUsername(this.registerFormData.fullname),
         "role": "USER"
-      }
+      },
+      false
     ).then((response) => {
-      if (response.status === 200) {
+      if (response.status === 200 && response.data.token !== undefined && response.data.token !== null && response.data.token !== "") {
+        const token = response.data.token;
+        localStorage.setItem("authToken", token);
         this.router.navigate(["create-post"])
           .then(
           )
       } else  {
-        this.errorMessage = "Invalid username or password"
+        this.errorMessage = "Error registering user." + response.data.message
       }
     }).catch((error) => {
       console.log(error)
-      this.errorMessage = "Error registering user. Please try again."
+      this.errorMessage = "Error registering user."
     })
   }
 

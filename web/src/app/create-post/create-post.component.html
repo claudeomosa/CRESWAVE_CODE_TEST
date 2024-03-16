@@ -1,4 +1,5 @@
-<form action="#" class="relative p-20 h-[80vh]">
+<form class="relative p-20 h-[80vh]" (ngSubmit)="onSubmitBlogPost()" #blogPostForm="ngForm">
+  <p class="my-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">User the form below to create a new blog.</p>
   <div
     class="overflow-hidden rounded-lg border border-gray-300 shadow-sm focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500 h-full"
   >
@@ -9,6 +10,7 @@
       id="title"
       class="block w-full border-0 pt-2.5 text-lg font-medium placeholder:text-gray-400 focus:ring-0"
       placeholder="Title"
+      [(ngModel)]="blogPostData.title"
     />
     <label for="description" class="sr-only">Description</label>
     <textarea
@@ -17,6 +19,7 @@
       id="description"
       class="block w-full resize-none border-0 py-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
       placeholder="Write a description..."
+      [(ngModel)]="blogPostData.content"
     ></textarea>
 
     <!-- Spacer element to match the height of the toolbar -->
@@ -39,7 +42,7 @@
     <div
       class="flex items-center justify-between space-x-3 border-t border-gray-200 px-2 py-2 sm:px-3"
     >
-      
+
       <div class="flex-shrink-0">
         <button
           type="submit"

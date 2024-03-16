@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import {Router, RouterOutlet} from '@angular/router';
 import {FormsModule} from "@angular/forms";
 import {AxiosService} from "./axios.service";
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {AuthInterceptor} from "./auth.inceptors";
 
 @Component({
   selector: 'app-root',
@@ -11,7 +13,14 @@ import {AxiosService} from "./axios.service";
     FormsModule
   ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ]
 })
 export class AppComponent {
   title = 'Creswave Blog';
@@ -25,9 +34,11 @@ export class AppComponent {
     this.axiosService.request(
       "POST",
       "/logout",
-    {}
+    {},
+      true
     ).then((response) => {
       if (response.status === 200){
+        localStorage.removeItem("authToken");
         this.router.navigate([""]).then()
       }
     })

@@ -1,21 +1,25 @@
 import { Component } from '@angular/core';
 import { AxiosService } from '../axios.service';
-import { NgFor } from '@angular/common';
+import {DatePipe, NgFor} from '@angular/common';
+import {RouterLink} from "@angular/router";
+import {BlogPost} from "../shared/blogPost.interface";
 
 @Component({
   selector: 'app-posts',
   standalone: true,
   imports: [
-    NgFor
+    NgFor,
+    DatePipe,
+    RouterLink
   ],
   templateUrl: './posts.component.html',
   styleUrl: './posts.component.css'
 })
 export class PostsComponent {
-  blogPosts: Object[] = [];
+  blogPosts: BlogPost[] = [];
 
   constructor(private axiosService: AxiosService) {
-  
+
   }
 
   ngOnInit() {

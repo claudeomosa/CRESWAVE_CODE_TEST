@@ -1,8 +1,8 @@
 package creswave.api.service.impl;
 
 import creswave.api.dto.BlogPostDTO;
-import creswave.api.dto.UserDTO;
 import creswave.api.model.BlogPost;
+import creswave.api.model.Role;
 import creswave.api.model.User;
 import creswave.api.repository.PostRepository;
 import creswave.api.repository.UserRepository;
@@ -91,7 +91,12 @@ public class BlogPostServiceImpl implements BlogPostService {
         BlogPost blogPost = blogPostRepository.findById(id).orElseThrow();
         blogPost.setTitle(blogPostDto.getTitle());
         blogPost.setContent(blogPostDto.getContent());
-        return toDto(blogPostRepository.save(blogPost));
+        User currentUser = getCurrentUser();
+        if (blogPost.getUser().getId().equals(currentUser.getId()) || currentUser.getRole().equals(Role.ADMIN)) {
+            return toDto(blogPostRepository.save(blogPost));
+        } else {
+            throw new IllegalArgumentException("You are not authorized to update this post");
+        }
     }
 
     private BlogPostDTO toDto(BlogPost save) {
@@ -111,6 +116,12 @@ public class BlogPostServiceImpl implements BlogPostService {
 
     @Override
     public void deletePost(Long id) {
-        blogPostRepository.deleteById(id);
+        BlogPost existingPost = blogPostRepository.findById(id).orElseThrow();
+        User currentUser = getCurrentUser();
+        if (existingPost.getUser().getId().equals(currentUser.getId()) || currentUser.getRole().equals(Role.ADMIN)) {
+            blogPostRepository.deleteById(id);
+        } else {
+            throw new IllegalArgumentException("You are not authorized to delete this post");
+        }
     }
 }

@@ -33,9 +33,12 @@ export class LoginComponent {
       {
         "username": this.loginFormData.username,
         "password": this.loginFormData.password
-      }
+      },
+      false
     ).then((response) => {
       if (response.status === 200) {
+        const token = response.data.token;
+        localStorage.setItem("authToken", token);
         this.router.navigate(["create-post"])
           .then(
           )
